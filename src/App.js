@@ -13,7 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import AppHeader from "./AppHeader";
-import AxiosPlayground from "./axios-playground";
+import PrivateRoute from "./PrivateRoute";
 
 export const TodoAppConText = React.createContext({
   appName: "Default App Name",
@@ -48,7 +48,7 @@ function App() {
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
-            <Route path="/home">
+            <PrivateRoute path="/home">
               <AppHeader></AppHeader>
               <div className={classes.taskInputContainer}>
                 <TaskInput />
@@ -63,7 +63,7 @@ function App() {
                   title={"Danh sách task hoàn thành"}
                 />
               </section>
-            </Route>
+            </PrivateRoute>
             <Route path="/login">
               <Login />
             </Route>
