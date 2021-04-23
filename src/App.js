@@ -13,6 +13,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import AppHeader from "./AppHeader";
+import AxiosPlayground from "./axios-playground";
 
 export const TodoAppConText = React.createContext({
   appName: "Default App Name",
@@ -65,6 +66,9 @@ function App() {
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/axiosplayground">
+              <AxiosPlayground />
             </Route>
           </Switch>
         </Router>
