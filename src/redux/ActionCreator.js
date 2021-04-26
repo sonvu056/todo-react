@@ -1,3 +1,4 @@
+import TodoService from "../TodoService";
 import {
   AddNewTaskValue,
   ChangeInputValueType,
@@ -6,6 +7,8 @@ import {
   ChooseFavouriteTaskValue,
   LoginSucces,
   LogoutSucces,
+  BeginAddTodo,
+  AddTodoSuccess,
 } from "./ActionType";
 
 export const ChangeInputValue = (newInputValue) => {
@@ -63,4 +66,19 @@ export const AttempLogout = () => {
   return {
     type: LogoutSucces,
   };
+};
+
+export const AddNewTaskAsync = (inputValue) => async (dispatch, getState) => {
+  dispatch({
+    type: BeginAddTodo
+  })
+  try {
+    await TodoService.AddTodo(inputValue);
+    dispatch({
+      type: AddTodoSuccess,
+      payload: {
+        newTaskName: inputValue,
+      }
+    })
+  } catch (error) {}
 };

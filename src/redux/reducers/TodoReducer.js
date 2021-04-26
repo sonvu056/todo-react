@@ -1,5 +1,7 @@
 import {
   AddNewTaskValue,
+  AddTodoSuccess,
+  BeginAddTodo,
   ChangeInputValueType,
   ChangeStatusCompleteValue,
   ChooseFavouriteTaskValue,
@@ -8,14 +10,23 @@ import { v4 as uuidv4 } from "uuid";
 import MockTask from "../../MockTasks";
 
 export const todo = (
-  state = { taskList: [...MockTask], newTaskName: "" },
+  state = {
+    taskList: [...MockTask],
+    newTaskName: "",
+    isLoading: true,
+    isError: false,
+  },
   action
 ) => {
   switch (action.type) {
-    case ChangeInputValueType: {
-      return { ...state, newTaskName: action.payload.newInputValue };
+    case BeginAddTodo: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
     }
-    case AddNewTaskValue: {
+    case AddTodoSuccess: {
       const newTask = {
         id: uuidv4(),
         taskName: action.payload.newTaskName,
@@ -23,12 +34,17 @@ export const todo = (
         isFavourite: false,
         createdDate: new Date(),
         completedDate: "",
+        isLoading: false,
+        isError: false,
       };
       return {
         ...state,
         newTaskName: "",
         taskList: [...state.taskList, newTask],
       };
+    }
+    case ChangeInputValueType: {
+      return { ...state, newTaskName: action.payload.newInputValue };
     }
     case ChangeStatusCompleteValue: {
       const newTaskList = state.taskList.map((task) =>

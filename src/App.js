@@ -1,10 +1,6 @@
 import classes from "./App.module.css";
 import "antd/dist/antd.css";
-import TaskInput from "./TaskInput";
-import TodoList from "./TodoList";
 import React from "react";
-import _ from "lodash";
-import { useSelector } from "react-redux";
 import Login from "./Login";
 import {
   BrowserRouter as Router,
@@ -12,7 +8,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import AppHeader from "./AppHeader";
 import PrivateRoute from "./PrivateRoute";
 import AxiosPlayground from "./AxiosPlayground";
 import Home from "./Home";
