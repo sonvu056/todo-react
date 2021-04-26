@@ -1,57 +1,29 @@
 import { Input } from "antd";
 import { Button } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import TodoService from "./TodoService";
+
 export default function AxiosPlayground() {
   const [todos, setTodos] = useState([]);
-  const [isLoading, setIsLoadng] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [retryCount, setRetryCount] = useState(1);
+
   const [inputValue, setInputValue] = useState("");
-
-  const handleOnChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handlePressEnter = async () => {
-    setIsLoadng(true);
-
-    try {
-      await axios.post("http://localhost:5000/Todo/AddTodo", {
-        user: "sylk",
-        taskName: inputValue,
-      });
-
-      setRetryCount(retryCount + 1);
-
-      setInputValue("");
-
-    } catch (error) {
-
-    } finally {
-      setIsLoadng(false);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoadng(true);
+        setIsLoading(true);
         setIsError(false);
-        const todoListPromise = await axios.get(
-          "http://localhost:5000/Todo/GetTodos",
-          {
-            params: {
-              user: "sylk",
-            },
-          }
-        );
-        setTodos(todoListPromise.data.data);
-      } catch (error) {
+        const todoListResonse = await TodoService.GetTodoList();
+
+        setTodos(todoListResonse.data.data);
+      } catch (ex) {
         setIsError(true);
-        console.log("loi roi");
+        console.log("lỗi rồi");
       } finally {
-        setIsLoadng(false);
+        setIsLoading(false);
       }
     };
 
@@ -62,23 +34,44 @@ export default function AxiosPlayground() {
     setRetryCount(retryCount + 1);
   };
 
+  const handleOnChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handlePressEnter = async () => {
+    setIsLoading(true);
+
+    try {
+      await TodoService.AddTodo(inputValue);
+
+      setInputValue("");
+
+      setRetryCount(retryCount + 1);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return isLoading ? (
-    "Loading..."
+    "Loading ..."
   ) : (
     <>
       {!isError ? (
-        <>
-          <Input
-            placeholder="Nhập tên task rồi ấn enter"
-            value={inputValue}
-            onChange={handleOnChange}
-            onPressEnter={handlePressEnter}
-          />
-          <div>{todos.length}</div>;
-        </>
+        <div>
+          <div>
+            <Input
+              placeholder="Nhập tên task rồi ấn enter"
+              value={inputValue}
+              onChange={handleOnChange}
+              onPressEnter={handlePressEnter}
+            />
+          </div>
+          {todos.length}
+        </div>
       ) : (
         <div>
-          <Button onClick={handleTryAgain}>Try Again</Button>
+          <Button onClick={handleTryAgain}>Try again</Button>
         </div>
       )}
     </>
