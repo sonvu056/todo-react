@@ -1,9 +1,9 @@
 import {
-  AddTodoSuccess,
-  BeginAddTodo,
   ChangeInputValueType,
   ChangeStatusCompleteValue,
   ChooseFavouriteTaskValue,
+  BeginAddTodo,
+  AddTodoSuccess,
 } from "../ActionType";
 import { v4 as uuidv4 } from "uuid";
 import MockTask from "../../MockTasks";
@@ -38,6 +38,8 @@ export const todo = (
       };
       return {
         ...state,
+        isLoading: false,
+        isError: false,
         newTaskName: "",
         taskList: [...state.taskList, newTask],
       };

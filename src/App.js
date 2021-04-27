@@ -12,32 +12,26 @@ import PrivateRoute from "./PrivateRoute";
 import AxiosPlayground from "./AxiosPlayground";
 import Home from "./Home";
 
-export const TodoAppConText = React.createContext({
-  appName: "Default App Name",
-});
-
 function App() {
   return (
-    <TodoAppConText.Provider value={{ appName: "My Todo App" }}>
-      <div className={classes.app}>
-        <Router>
-          <Switch>
-            <PrivateRoute path="/home">
-              <Home />
-            </PrivateRoute>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/axiosplayground">
-              <AxiosPlayground />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    </TodoAppConText.Provider>
+    <div className={classes.app}>
+      <Router>
+        <Switch>
+          <PrivateRoute path="/home">
+            <Home />
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/axiosplayground">
+            <AxiosPlayground />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

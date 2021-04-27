@@ -13,7 +13,7 @@ function TaskInput() {
       return;
     }
 
-    dispatch(AddNewTaskAsync(inputValue))
+    dispatch(AddNewTaskAsync(inputValue));
   };
 
   const handleOnChange = (e) => {

@@ -1,6 +1,5 @@
 import TodoService from "../TodoService";
 import {
-  AddNewTaskValue,
   ChangeInputValueType,
   GetTasksListValue,
   ChangeStatusCompleteValue,
@@ -24,14 +23,6 @@ export const GetTasksList = (tasksList) => {
     type: GetTasksListValue,
     payload: {
       tasksList,
-    },
-  };
-};
-export const AddNewTask = (newTaskName) => {
-  return {
-    type: AddNewTaskValue,
-    payload: {
-      newTaskName,
     },
   };
 };
@@ -69,16 +60,20 @@ export const AttempLogout = () => {
 };
 
 export const AddNewTaskAsync = (inputValue) => async (dispatch, getState) => {
-  dispatch({
-    type: BeginAddTodo
-  })
   try {
+    dispatch({
+      type: BeginAddTodo,
+    });
     await TodoService.AddTodo(inputValue);
     dispatch({
       type: AddTodoSuccess,
       payload: {
         newTaskName: inputValue,
-      }
-    })
-  } catch (error) {}
+      },
+    });
+  } catch (ex) {
+    // ADD_TODO_ERR
+  } finally {
+    // END_ADD_TODO
+  }
 };
